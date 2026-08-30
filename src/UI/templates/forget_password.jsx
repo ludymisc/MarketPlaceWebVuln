@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Login() {
+export default function ForgetPassword() {
    const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -11,22 +11,7 @@ export default function Login() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 min-h-screen w-full font-sans">
-      
-      {/* 1. KOLOM KIRI (Hijau Toska) */}
-      <div className="bg-[#16A085] flex flex-col items-center justify-center p-8 text-white text-center">
-        {/* Title & Subtitle */}
-        <h1 className="text-4xl font-bold mb-2">MarketKu</h1>
-        <p className="text-sm text-emerald-100 max-w-xs mb-8">
-          Belanja jutaan produk pilihan dengan harga terbaik
-        </p>
-
-        {/* Placeholder Kotak Gambar/Banner */}
-        <div className="w-80 h-80 bg-[#117A65] rounded-2xl shadow-inner flex items-center justify-center text-emerald-200 text-sm">
-          {/* Kamu bisa ganti ini pakai tag <img> kalau mau */}
-          [ Place Illustration Here ]
-        </div>
-      </div>
+    <div className="min-h-screen w-full font-sans">
 
       {/* 2. KOLOM KANAN (Form Login) */}
       <div className="bg-white flex flex-col justify-center items-center p-8">
@@ -35,10 +20,10 @@ export default function Login() {
           {/* Header Form */}
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-slate-800 mb-2">
-              Masuk ke Akun Anda
+              Ganti password akun anda
             </h2>
             <p className="text-xs text-gray-400">
-              Selamat datang kembali! Silakan masuk untuk melanjutkan.
+              Silahkan masukkan email dan password baru anda.
             </p>
           </div>
 
@@ -67,7 +52,7 @@ export default function Login() {
               </label>
               <input
                 type="password"
-                placeholder="••••••••"
+                placeholder="masukkan password baru"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:border-[#16A085] transition"
@@ -77,8 +62,8 @@ export default function Login() {
 
             {/* Lupa Kata Sandi */}
             <div className="text-right">
-              <a href="/lupa-sandi" className="text-xs font-semibold text-[#16A085] hover:underline">
-                Lupa kata sandi?
+              <a href="/login" className="text-xs font-semibold text-[#16A085] hover:underline">
+                Kembali?
               </a>
             </div>
 
@@ -87,16 +72,8 @@ export default function Login() {
               type="submit"
               className="w-full bg-[#16A085] hover:bg-[#138d75] text-white font-medium py-2.5 rounded-lg transition duration-200 text-sm mt-2"
             >
-              Masuk
+              Reset password
             </button>
-
-            {/* Footer Form */}
-            <p className="text-center text-xs text-gray-500 mt-6">
-              Belum punya akun?{' '}
-              <a href="/register" className="font-bold text-[#16A085] hover:underline">
-                Daftar sekarang
-              </a>
-            </p>
 
           </form>
 
