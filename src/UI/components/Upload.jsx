@@ -61,8 +61,22 @@ function Upload({isOpen, onClose}) {
     <>
       <div id='card' className='fixed inset-0 bg-gray-200 bg-opacity-50 flex items-center justify-center z-50'>
         <div className='my-2'>
-          <p className=''>INSERT SOMETHING HERE</p>
+          <p className=''>TAMBAHKAN PRODUK</p>
           <form className='mt-10' onSubmit={handleSubmit}>
+            <div>
+            <input 
+            type='text'
+            placeholder='Input your product name'
+            className='border border-grey-650 p-2 rounded-md hover:bg-gray-800 w-65'
+            />
+            </div>
+            <div>
+            <input 
+            type='text'
+            placeholder='Input your product description'
+            className='border border-grey-650 p-2 rounded-md hover:bg-gray-800 w-65'
+            />
+            </div>
             <input 
             type='file' 
             placeholder='Input Your File Here' 
