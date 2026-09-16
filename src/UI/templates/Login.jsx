@@ -1,13 +1,36 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // Logic login atau form vulnerability kamu di sini
-    console.log({ email, password });
+    try {
+      const res  = await fetch("http://localhost:3000/api/login", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem('token', data.token);
+        console.log("login berhasil, token disimpan", data);
+        navigate('/');
+      } else {
+        console.log("LOGIN ERROR:", data.message || "Gagal masuk");
+        return
+      }
+
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

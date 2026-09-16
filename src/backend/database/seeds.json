@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Atmint",
+    "email": "adminisgod@gmail.com",
+    "password": "admin123", 
+    "phone": "081111111111",
+    "address": "SFD lt. 11 r 1109",
+    "role": "admin"
+  },
+  {
+    "name": "ilham",
+    "email": "ilham212@yahoo.com",
+    "password": "windah_batuBara123",
+    "phone": "082222222222",
+    "address": "Jl. Mawar No. 22",
+    "role": "customer"
+  }
+]

@@ -1,19 +1,44 @@
 import React, { useState } from 'react';
 
 export default function ForgetPassword() {
-   const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMassage] = useState('');
 
-  const handleSubmit = (e) => {
+  try {
+    const handleSubmit = async(e) => {
     e.preventDefault();
-    // Logic login atau form vulnerability kamu di sini
+
+    if (confirmPassword !== password) {
+      setErrorMassage("Password tidak cocok");
+      return;
+    }
+
+    setErrorMassage('');
+
+    const res = await fetch('http:3000/api/forget-password', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    })
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.log("PASSWORD CHANGE FAILED :", data.message || "GAGAL MENGGANTI PASSWORD")
+      return;
+    }
+
     console.log({ email, password });
-  };
+  }} catch (err) {
+    console.error(err);
+  }
 
   return (
     <div className="min-h-screen w-full font-sans">
 
-      {/* 2. KOLOM KANAN (Form Login) */}
       <div className="bg-white flex flex-col justify-center items-center p-8">
         <div className="w-full max-w-md px-4">
           
@@ -48,7 +73,7 @@ export default function ForgetPassword() {
             {/* Field 2: Password */}
             <div className="flex flex-col gap-1">
               <label className="text-xs font-semibold text-gray-600">
-                Kata Sandi
+                Kata Sandi Baru
               </label>
               <input
                 type="password"
@@ -59,6 +84,26 @@ export default function ForgetPassword() {
                 required
               />
             </div>
+
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-semibold text-gray-600">
+                Ulangi Kata Sandi Baru
+              </label>
+              <input
+                type="password"
+                placeholder="masukkan password baru"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-md focus:outline-none focus:border-[#16A085] transition"
+                required
+              />
+            </div>
+
+            {errorMessage && (
+              <p className="text-xs text-red-500 font-semibold text-center">
+                {errorMessage}
+              </p>
+            )}
 
             {/* Lupa Kata Sandi */}
             <div className="text-right">
