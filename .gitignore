@@ -1,6 +1,7 @@
 #secret
 .env
 auth.test.js
+.dev.vars
 
 # Logs
 logs

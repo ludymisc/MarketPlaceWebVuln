@@ -8,7 +8,7 @@ import BuyModal from "../components/BuyModal";
 // [BACKEND DEPENDENCY] GET /me — must be protected by AuthMiddleware and read the
 // user from the Bearer token. Assumed response shape:
 // { id, name: string | null, email: string, address: string | null, phone: string | null, avatar_url: string | null }
-const ME_ENDPOINT = 'http://localhost:3000/api/me';
+const ME_ENDPOINT = 'https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/auth/me';
 
 // [BACKEND DEPENDENCY] Product endpoints:
 // GET /get-product/me         (own products, needs AuthMiddleware)

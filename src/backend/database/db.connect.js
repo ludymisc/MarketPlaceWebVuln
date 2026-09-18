@@ -1,15 +1,7 @@
-import dotenv from 'dotenv';
-import pg from 'pg';
+import { neon } from '@neondatabase/serverless';
 
-dotenv.config({ path: '../../../.env'});
-
-const { Pool } = pg;
-
-const connectionString = process.env.DATABASE_URL?.split('?')[0];
-
-const postgresql = new Pool({
-    connectionString: connectionString,
-    ssl: true
-});
+function postgresql(env) {
+    return neon(env.DATABASE_URL)
+}
 
 export default postgresql;

@@ -6,10 +6,12 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const API_URL = 'https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/auth'
+
   const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-      const res  = await fetch("http://localhost:3000/api/login", {
+      const res  = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

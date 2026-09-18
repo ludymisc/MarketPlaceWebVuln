@@ -13,12 +13,14 @@ function App() {
       <main>
         <Routes>
           <Route path='/' element={<LandingPage/>}/> 
-          <Route path='/Login' element={<Login/>}/>
+          <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/profile' element={<Profile/>}/> 
           <Route path='/profile/:ownerId' element={<Profile/>}/> 
           <Route path='/lupa-sandi' element={<ForgetPassword/>}/>
           <Route path='/test' element={<Upload/>}/>     
+
+          <Route path='*' element={<h1>Halaman Tidak Ditemukan (404 React Router)</h1>}/>
         </Routes>
       </main>
    </div>

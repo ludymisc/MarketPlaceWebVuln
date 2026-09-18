@@ -1,0 +1,11 @@
+{
+    "name": "marketplaceweb-vuln",
+    "compatibility_date": "2026-09-01",
+    "main": "./src/index.js",
+    "r2_buckets": [
+    {
+      "binding": "MY_BUCKET", // Nama variabel binding
+      "bucket_name": "market-place-vuln" // Nama bucket R2 kamu di Cloudflare
+    }
+  ]
+}

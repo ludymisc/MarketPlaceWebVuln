@@ -6,6 +6,8 @@ export default function ForgetPassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMessage, setErrorMassage] = useState('');
 
+  const API_URL = 'https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/auth'
+
   try {
     const handleSubmit = async(e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ export default function ForgetPassword() {
 
     setErrorMassage('');
 
-    const res = await fetch('http:3000/api/forget-password', {
+    const res = await fetch(`${API_URL}forget-password`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
