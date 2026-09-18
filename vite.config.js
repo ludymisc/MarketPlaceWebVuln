@@ -12,4 +12,5 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     cloudflare()
   ],
+  appType: 'spa',
 })
