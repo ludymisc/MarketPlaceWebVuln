@@ -4,7 +4,7 @@ import BuyModal from "../components/BuyModal";
 // [BACKEND DEPENDENCY - NEW, per this conversation] GET /get-product/recommendation
 // Public route with OPTIONAL auth: excludes the caller's own products when a valid
 // Bearer token is sent, returns everything when there isn't one (guest on landing page).
-const RECOMMENDATION_ENDPOINT = 'http://localhost:3000/api/allProduct';
+const RECOMMENDATION_ENDPOINT = 'https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/product/allProduct';
 
 function formatPrice(price) {
     const num = Number(price) || 0;
