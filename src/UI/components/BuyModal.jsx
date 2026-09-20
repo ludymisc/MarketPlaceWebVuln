@@ -6,7 +6,7 @@ import { useState } from 'react';
 // quantity typed here won't actually be respected server-side until that's fixed
 // on your end. Sending it as { quantity } here since that's the conventional shape
 // you said you'd debug against yourself.
-const CHECKOUT_ENDPOINT = (productId) => `http://localhost:3000/api/checkout/items/${productId}`;
+const CHECKOUT_ENDPOINT = (productId) => `https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/product/checkout/items/${productId}`;
 
 function formatPrice(price) {
     const num = Number(price) || 0;

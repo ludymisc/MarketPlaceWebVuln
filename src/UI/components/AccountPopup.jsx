@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 // - POST /upload-avatar   (multer field name: "user-avatar")
 // - PATCH /update-profile (body: { name, address, phone }, all three required)
 // Both rely on the httpOnly JWT cookie via `credentials: 'include'`.
-const UPLOAD_AVATAR_ENDPOINT = 'http://localhost:3000/api/upload-avatar';
-const UPDATE_PROFILE_ENDPOINT = 'http://localhost:3000/api/update-profile';
+const UPLOAD_AVATAR_ENDPOINT = 'https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/auth/upload-avatar';
+const UPDATE_PROFILE_ENDPOINT = 'https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/auth/update-profile';
 
 function AccountPopup({ isOpen, onClose, me, onUpdated }) {
     const [file, setFile] = useState(null);
