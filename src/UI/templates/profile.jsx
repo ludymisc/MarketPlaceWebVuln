@@ -17,7 +17,7 @@ const MY_PRODUCTS_ENDPOINT = 'http://localhost:3000/api/get-product/me';
 const OWNER_PRODUCTS_ENDPOINT = (ownerId) => `http://localhost:3000/api/get-product/${ownerId}`;
 
 // [BACKEND DEPENDENCY] GET /get-user/:id — public, returns { id, name, avatar_url } only.
-const OWNER_INFO_ENDPOINT = (ownerId) => `http://localhost:3000/api/get-user/${ownerId}`;
+const OWNER_INFO_ENDPOINT = (ownerId) => `https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/auth/profile/${ownerId}`;
 
 function getInitials(name, email) {
     if (name && name.trim().length > 0) {

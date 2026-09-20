@@ -3,14 +3,16 @@ import { dbMiddleware } from '../database/db.middleware';
 import postgresql from '../database/db.connect'
 import { zValidator } from '@hono/zod-validator'
 import registerSchema from '../middleware/regex.middleware';
-import { generateToken, verifyToken } from '../middleware/auth.middleware';
+import { generateToken, verifyToken } from '../middleware/jwt.config';
+import { authMiddleware } from '../middleware/auth.middleware.js';
 
 const auth = new Hono();
 auth.use('*', dbMiddleware);
+auth.use('/me', authMiddleware)
 
 auth.get('/allUsers', async(c) => {
     const sql = postgresql(c.env);
-    const users = await sql`SELECT email, password FROM users`
+    const users = await sql`SELECT id, email, password FROM users`
     return c.json(users)
 }) 
 
@@ -169,14 +171,15 @@ auth.post('/upload-avatar', async(c) => {
 
 auth.get('/me', async(c) => {
     try{
-        const authHeader = c.req.header('Authorization');
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return c.json({message: "invalid token"})
-        }
-        const token = authHeader.split(' ')[1]
-        const payload = await verifyToken(token, c.env)
-        const userId = payload.id || payload.payload?.id
-
+        // const authHeader = c.req.header('Authorization');
+        // if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        //     return c.json({message: "invalid token"})
+        // }
+        // const token = authHeader.split(' ')[1]
+        // const payload = await verifyToken(token, c.env)
+        // const userId = payload.id || payload.payload?.id
+        const user = c.get('user')
+        const userId = user.id
         const sql = postgresql(c.env)
 
         const me = await sql`SELECT * FROM users WHERE id = ${userId}`
@@ -184,6 +187,23 @@ auth.get('/me', async(c) => {
     } catch (err) {
         console.error(err.message);
         return c.json({ message: "get me errro : internal server error"}, 500)
+    }
+})
+
+auth.get('/profile/:id', async(c) => {
+    try{
+        const userId = c.req.param('id')
+        const sql = postgresql(c.env)
+        const checkedProfile = await sql`SELECT name, email, avatar_url FROM users WHERE id = ${userId}`
+        if (checkedProfile.length === 0) {
+            return c.json({message: "datanya gaada tuan"})
+        }
+        console.log(userId)
+        console.log(checkedProfile)
+        return c.json({ message: "oke, ini datanya", data: checkedProfile[0]})
+    }catch (err) {
+        console.error(err.message);
+        return c.json({message: "cannot get other profile : internal server error"}, 500)
     }
 })
 
