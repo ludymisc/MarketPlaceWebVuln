@@ -120,7 +120,9 @@ export default function Profile() {
             const result = await response.json();
 
             if (!response.ok) {
+                console.error("Gagal mengambil data product:", response.statusText);
                 throw new Error(result.message || 'Gagal memuat produk');
+                return
             }
 
             setProducts(result.data || []);

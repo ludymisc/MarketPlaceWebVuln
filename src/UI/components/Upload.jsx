@@ -4,7 +4,7 @@ import { useState } from 'react';
 // That route requires AuthMiddleware, so the browser must send the httpOnly auth
 // cookie automatically via `credentials: 'include'` below — no manual token handling needed.
 // Required by backend: name, price. Optional: description, stock, img (multer field name: "img").
-const ADD_PRODUCT_ENDPOINT = 'http://localhost:3000/api/add-product';
+const ADD_PRODUCT_ENDPOINT = 'https://marketplaceweb-vuln.zakyadityasusanto.workers.dev/product/add-product';
 
 function Upload({ isOpen, onClose, onSuccess }) {
   const [name, setName] = useState('');
@@ -56,14 +56,14 @@ function Upload({ isOpen, onClose, onSuccess }) {
     uploadForm.append('price', price ? parseFloat(price) : 0);
     uploadForm.append('stock', stock ? parseInt(stock) : 0);
     if (file) {
-      uploadForm.append('img', file);
+      uploadForm.append('image', file);
     }
 
     setLoading(true);
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/api/add-product', {
+      const response = await fetch(ADD_PRODUCT_ENDPOINT, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

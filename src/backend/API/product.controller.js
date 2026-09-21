@@ -20,8 +20,8 @@ product.post('/add-product', async(c) => {
 
         const body = await c.req.parseBody();
 
-        const {name, description, price, stock} = body["name", "description", price, stock]
-        const imageFile = body[image]
+        const {name, description, price, stock} = body;
+        const imageFile = body['image']
 
         if(!imageFile || typeof imageFile === 'string') {
             return c.json({message: "field image harus diisi dengan file MIME type"}, 400)
@@ -30,17 +30,17 @@ product.post('/add-product', async(c) => {
         const fileExtention = imageFile.name.split('.').pop()
         const objKey = `products/${userId}-${Date.now()}.${fileExtention}`
 
-        await c.env.MY_BUCKET.put(objKey, file.stream(), {
+        await c.env.MY_BUCKET.put(objKey, imageFile.stream(), {
             httpMetadata: {
-                contentType: file.type
+                contentType: imageFile.type
             }
         })
 
         const sql = postgresql(c.env)
-        const result = await sql(`
+        const result = await sql`
         INSERT INTO products(user_id, name, description, price, stock, image_url)
-        VALUES($1, $2, $3, $4, $5, $6)
-        RETURNING *`, [userId, name, description, price, stock, objKey]);
+        VALUES(${userId}, ${name}, ${description}, ${price}, ${stock}, ${objKey})
+        RETURNING *`
 
         return c.json({
             message: "Upload berhasil",
@@ -61,7 +61,7 @@ product.get('/get-product/me', authMiddleware, async(c) => {
         return c.json({message: "proses fetching sukses", data: data}, 200)
     } catch (err) {
         console.error(err)
-        return c.json({message: "get product me : internal server error"}, 500)
+        return c.json({message: "get product me : internal server error", error: err.message}, 500)
     }
 })
 // //to fetch own item when take a look at your profile
@@ -115,9 +115,9 @@ product.post('/checkout/items/:id', authMiddleware, async(c) => {
     try{
         const user = c.get('user');
         const buyerId = user.id;
-        const sql = postgresql('c.env');
-        const item_id = req.param('id');
-        const body = c.req.js0n();
+        const sql = postgresql(c.env);
+        const item_id = c.req.param('id');
+        const body = await c.req.json();
         const quantity = body.quantity;
         const qty = parseInt(quantity);
 
@@ -125,16 +125,17 @@ product.post('/checkout/items/:id', authMiddleware, async(c) => {
         const product = productResult[0]
         const buyerResult = await sql`SELECT * FROM users WHERE id = ${buyerId}`
         const buyer = buyerResult[0]
-        const purchase = await sql`UPDATE users SET balance = balance - ${product.price} * ${qty} WHERE id = ${buyer.id}`
+        const totalPrice = Number(product.price) * qty;
+        const purchase = await sql`UPDATE users SET balance = balance - ${totalPrice} WHERE id = ${buyer.id}`
         await sql`UPDATE products SET stock = stock - ${qty} WHERE id = ${product.id}`
-        await sql`UPDATE users SET balance = balance + ${product.price} * ${qty} WHERE id = ${product.user_id}`
-        c.json({
+        await sql`UPDATE users SET balance = balance + ${totalPrice} WHERE id = ${product.user_id}`
+        return c.json({
             message: "pembelian berhasil",
             barang : purchase
         })
     } catch (err) {
         console.error(err.message);
-        c.json({message: "internal server error"}, 500)
+        return c.json({message: "internal server error", error: err.message}, 500)
     }
 })
 // router.post('/checkout/items/:id', AuthMiddleware, async(req, res) => {
@@ -235,27 +236,27 @@ product.post('/checkout/items/:id', authMiddleware, async(c) => {
 
 product.get('/allProduct', async (c) => {
     try{
-        let exludeUserId = null;
+        let excludeUserId = null;
         const authHeader = c.req.header('Authorization')
+        const sql = postgresql(c.env)
 
         if (authHeader?.startsWith('Bearer ')) {
             try {
                 const token = authHeader.split(' ')[1]
                 const payload = await verifyToken(token, c.env)
-                const exludeUserId = payload.id || payload.payload?.id
+                excludeUserId = payload.id || payload.payload?.id
             } catch (err) {
                 console.error(err.message);
                 return c.json({message: "masalah pada saat verify token"}, 400 )
             }}
-
             const result = excludeUserId
-            ? await postgresql.query`SELECT * FROM products WHERE user_id != ${excludeUserId}`
-            : await postgresql.query`SELECT * FROM products`
+            ? await sql`SELECT * FROM products WHERE user_id != ${excludeUserId}`
+            : await sql`SELECT * FROM products`
 
-            c.json({message: "berhasil mengambil seluruh product"}, 200)
+            return c.json({message: "berhasil mengambil seluruh product", data: result}, 200)
     } catch (err) {
         console.error(err);
-        c.json({message: "fetch gagal, internal server error", err: err.message}, 500)
+        return c.json({message: "fetch gagal, internal server error", err: err.message}, 500)
     }
 })
 

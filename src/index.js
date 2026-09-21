@@ -11,6 +11,10 @@ app.use('*', async (c, next) => {
   console.log(`[${c.req.method}] ${c.req.url}`)
   await next()
 })
+app.onError((err, c) => {
+  console.error('Uncaught error:', err.message, err.stack)
+  return c.json({ message: 'Internal Server Error', error: err.message }, 500)
+})
 
 app.route('/auth', authRoutes) 
 app.route('/product', productRoutes)

@@ -29,7 +29,9 @@ export default function RecomendationContent() {
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.message || 'Gagal memuat rekomendasi');
+                const errorText = await response.text();
+                console.error("API Error Response:", errorText);
+                throw new Error(`Gagal memuat rekomendasi (Status ${response.status})`);
             }
 
             setProducts(result.data || []);

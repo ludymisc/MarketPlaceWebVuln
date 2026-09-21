@@ -8,8 +8,8 @@
     },
     "r2_buckets": [
     {
-      "binding": "MY_BUCKET", // Nama variabel binding
-      "bucket_name": "market-place-vuln" // Nama bucket R2 kamu di Cloudflare
+      "binding": "MY_BUCKET",
+      "bucket_name": "market-place-vuln"
     }
   ]
 }
